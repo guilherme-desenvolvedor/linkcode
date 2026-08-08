@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg: #0a1022;
+    --bg-2: #13203f;
+    --navy: #16244a;
+    --navy-line: rgba(120, 150, 210, 0.22);
+    --ink: #f0f2f7;
+    --ink-dim: #8994b3;
+    --ink-faint: #57608a;
+    --red: #e6341f;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    color-scheme: dark;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse 900px 600px at 50% -10%, var(--bg-2), var(--bg) 60%);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#nodes {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ---- layout ---- */
+
+.wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    padding: 76px 0 40px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.mark {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    background: var(--navy);
+    border: 1px solid var(--navy-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 22px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--red);
+    letter-spacing: -0.02em;
+}
+
+.wordmark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 8vw, 2.75rem);
+    letter-spacing: -0.02em;
+}
+
+.wordmark span {
+    color: var(--red);
+}
+
+.tagline {
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+    margin-top: 10px;
+    letter-spacing: 0.01em;
+}
+
+/* ---- link rows ---- */
+
+.links {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+}
+
+.link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 4px;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+    transition: padding-left 0.25s ease, border-color 0.25s ease;
+}
+
+.link-row:hover,
+.link-row:focus-visible {
+    padding-left: 10px;
+    border-color: var(--line-strong);
+    outline: none;
+}
+
+.link-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.link-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+}
+
+.link-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* node → cross indicator, echoes the mark in the logo */
+
+.node {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    flex: none;
+}
+
+.node::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--ink-faint);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.node .bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--red);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.node .bar.b1 {
+    transform: translate(-50%, -50%) rotate(45deg) scaleX(0);
+}
+
+.node .bar.b2 {
+    transform: translate(-50%, -50%) rotate(-45deg) scaleX(0);
+    transition-delay: 0.05s;
+}
+
+.link-row:hover .node::before,
+.link-row:focus-visible .node::before {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.link-row:hover .node .bar,
+.link-row:focus-visible .node .bar {
+    opacity: 1;
+}
+
+.link-row:hover .node .b1,
+.link-row:focus-visible .node .b1 {
+    transform: translate(-50%, -50%) rotate(45deg) scaleX(1);
+}
+
+.link-row:hover .node .b2,
+.link-row:focus-visible .node .b2 {
+    transform: translate(-50%, -50%) rotate(-45deg) scaleX(1);
+}
+
+/* ---- coming soon page ---- */
+
+.soon {
+    text-align: center;
+    padding: 36px 0 48px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.soon-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+}
+
+.soon-text {
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 0 auto 28px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 10px 4px;
+}
+
+.back-link .node {
+    transform: rotate(0deg);
+}
+
+.back-link:hover .node::before,
+.back-link:focus-visible .node::before {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.back-link:hover .node .bar,
+.back-link:focus-visible .node .bar {
+    opacity: 1;
+}
+
+.back-link:hover .node .b1,
+.back-link:focus-visible .node .b1 {
+    transform: translate(-50%, -50%) rotate(45deg) scaleX(1);
+}
+
+.back-link:hover .node .b2,
+.back-link:focus-visible .node .b2 {
+    transform: translate(-50%, -50%) rotate(-45deg) scaleX(1);
+}
+
+/* ---- footer ---- */
+
+.foot {
+    margin-top: auto;
+    padding-top: 40px;
+    text-align: center;
+}
+
+.foot span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .link-row, .node::before, .node .bar, .back-link {
+        transition: none !important;
+    }
+}
